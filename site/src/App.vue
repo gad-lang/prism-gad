@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useTheme } from "vuetify";
 import { computed, ref } from "vue";
 import { marked } from "marked";
 import Prism from "prismjs";
@@ -10,6 +11,8 @@ import api from "../../docs/api.md?raw";
 registerGad(Prism);
 registerGadx(Prism);
 
+const theme = useTheme();
+const toggleTheme = () => { theme.global.name.value = theme.global.current.value.dark ? "light" : "dark"; };
 const logo = import.meta.env.BASE_URL + "gad.svg";
 const tab = ref("example");
 const readmeHtml = marked.parse(readme) as string;
@@ -35,6 +38,7 @@ const highlighted = computed(() => {
         prism-gad
       </v-app-bar-title>
       <v-spacer />
+      <v-btn :icon="theme.global.current.value.dark ? 'mdi-weather-sunny' : 'mdi-weather-night'" @click="toggleTheme" variant="text" title="Toggle theme" />
       <v-btn href="https://github.com/gad-lang/prism-gad" icon="mdi-github" variant="text" />
     </v-app-bar>
     <v-main>
